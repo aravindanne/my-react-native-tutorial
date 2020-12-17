@@ -34,8 +34,7 @@ function ListItem({
           {image && <Image style={styles.image} source={image} />}
           <View style={styles.detailsContainer}>
             <AppText style={styles.title} numberOfLines={1}>
-              {" "}
-              {title}{" "}
+              {title}
             </AppText>
             {subTitle && (
               <AppText style={styles.subTitle} numberOfLines={2}>

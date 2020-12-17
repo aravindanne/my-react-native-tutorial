@@ -7,6 +7,10 @@ import Icon from "../components/Icon";
 import colors from "../config/color";
 import color from "../config/color";
 import ListItemSeparator from "../components/ListItemSeparator";
+import { useContext } from "react";
+import AuthContext from "../auth/context";
+import authStorage from "../auth/storage";
+import useAuth from "../auth/useAuth";
 
 const menuItems = [
   {
@@ -22,16 +26,23 @@ const menuItems = [
       name: "email",
       backgroundColor: colors.secondary,
     },
+    targetScreen: "Messages",
   },
 ];
 
-function AccountScreen() {
+function AccountScreen({ navigation }) {
+  const { user, logout } = useAuth(); // useContext(AuthContext);
+
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
     <Screen style={styles.screen}>
       <View style={styles.container}>
         <ListItem
-          title="Aravindanne"
-          subTitle="I love coding."
+          title={user.name}
+          subTitle={user.email}
           image={require("../assets/background.jpg")}
         />
       </View>
@@ -42,6 +53,7 @@ function AccountScreen() {
           ItemSeparatorComponent={ListItemSeparator}
           renderItem={({ item }) => (
             <ListItem
+              onPress={() => navigation.navigate(item.targetScreen)}
               title={item.title}
               subTitle={item.subTitle}
               ImageComponent={
@@ -57,6 +69,7 @@ function AccountScreen() {
 
       <View>
         <ListItem
+          onPress={handleLogout}
           title="logout"
           ImageComponent={<Icon name="logout" backgroundColor="#ffe66d" />}
         />
